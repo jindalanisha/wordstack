@@ -32,8 +32,10 @@ public class StackedLayout extends LinearLayout {
 
         LetterTile popped=(LetterTile) tiles.pop();
         this.removeView(popped);
-        LetterTile tt=(LetterTile) tiles.peek();
-        this.addView(tt);
+        if(!tiles.empty()) {
+            LetterTile tt = (LetterTile) tiles.peek();
+            this.addView(tt);
+        }
         return popped;
     }
 
