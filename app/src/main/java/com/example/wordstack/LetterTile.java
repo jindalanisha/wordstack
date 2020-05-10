@@ -1,7 +1,10 @@
 package com.example.wordstack;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +36,7 @@ public class LetterTile extends TextView {
             targetView.addView(this);
             freeze();
             setVisibility(View.VISIBLE);
+
         } else {
             ViewGroup owner = (ViewGroup) parent;
             owner.removeView(this);
@@ -51,11 +55,18 @@ public class LetterTile extends TextView {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        /**
-         **
-         **  YOUR CODE GOES HERE
-         **
-         **/
-        return super.onTouchEvent(motionEvent);
+        if(!frozen && motionEvent.getAction()== MotionEvent.ACTION_DOWN)
+        {
+            Log.e("hey","drag");
+            this.startDrag(ClipData.newPlainText("", ""), new View.DragShadowBuilder(this),this,0);
+            return true;
+        }
+        return true;
     }
+    boolean isFrozen()
+    {
+        return frozen;
+    }
+
+
 }

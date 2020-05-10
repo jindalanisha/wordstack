@@ -2,6 +2,7 @@ package com.example.wordstack;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -57,35 +58,33 @@ public class MainActivity extends AppCompatActivity {
         verticalLayout.addView(stackedLayout, 3);
 
         View word1LinearLayout = findViewById(R.id.word1);
-        word1LinearLayout.setOnTouchListener(new TouchListener());
-        //word1LinearLayout.setOnDragListener(new DragListener());
+       // word1LinearLayout.setOnTouchListener(new TouchListener());
+        word1LinearLayout.setOnDragListener(new DragListener());
         View word2LinearLayout = findViewById(R.id.word2);
-        word2LinearLayout.setOnTouchListener(new TouchListener());
-        //word2LinearLayout.setOnDragListener(new DragListener());
+       // word2LinearLayout.setOnTouchListener(new TouchListener());
+        word2LinearLayout.setOnDragListener(new DragListener());
+
+
     }
 
-    private class TouchListener implements View.OnTouchListener {
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN && !stackedLayout.empty()) {
-                LetterTile tile = (LetterTile) stackedLayout.peek();
-                tile.moveToViewGroup((ViewGroup) v);
-                placedtiles.push(tile);
-                if (stackedLayout.empty()) {
-                    TextView messageBox = (TextView) findViewById(R.id.message_box);
-                    messageBox.setText(word1 + " " + word2);
-                }
-                /**
-                 **
-                 **  YOUR CODE GOES HERE
-                 **
-                 **/
-                return true;
-            }
-            return false;
-        }
-    }
+//    private class TouchListener implements View.OnTouchListener {
+//
+//        @Override
+//        public boolean onTouch(View v, MotionEvent event) {
+//            if (event.getAction() == MotionEvent.ACTION_DOWN && !stackedLayout.empty()) {
+//                LetterTile tile = (LetterTile) stackedLayout.peek();
+//                tile.moveToViewGroup((ViewGroup) v);
+//                placedtiles.push(tile);
+//                if (stackedLayout.empty()) {
+//                    TextView messageBox = (TextView) findViewById(R.id.message_box);
+//                    messageBox.setText(word1 + " " + word2);
+//                }
+//
+//
+//            }
+//            return false;
+//        }
+//    }
 
     private class DragListener implements View.OnDragListener {
 
@@ -112,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     // Dropped, reassign Tile to the target Layout
                     LetterTile tile = (LetterTile) event.getLocalState();
                     tile.moveToViewGroup((ViewGroup) v);
+                    placedtiles.push(tile);
                     if (stackedLayout.empty()) {
                         TextView messageBox = (TextView) findViewById(R.id.message_box);
                         messageBox.setText(word1 + " " + word2);
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayout word1LinearLayout = (LinearLayout) findViewById(R.id.word1);
         word1LinearLayout.removeAllViews();
-        LinearLayout word2LinearLayout = (LinearLayout) findViewById(R.id.word1);
+        LinearLayout word2LinearLayout = (LinearLayout) findViewById(R.id.word2);
         word2LinearLayout.removeAllViews();
         stackedLayout.removeAllViews();
         TextView messageBox = (TextView) findViewById(R.id.message_box);
